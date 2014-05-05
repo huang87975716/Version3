@@ -1,0 +1,29 @@
+SET PATH=D:\Keil\ARM\ARMCC\bin\;C:\Program Files\AMD APP\bin\x86;d:\winavr\bin;d:\winavr\utils\bin;C:\Windows\system32;C:\Windows;C:\Windows\system32\wbem;C:\Windows\system32\windowspowershell\v1.0\;d:\program files\altium designer 6\system;D:\Program Files\MATLAB\R2007a\bin;D:\Program Files\MATLAB\R2007a\bin\win32;C:\Program Files\Microsoft SQL Server\90\Tools\binn\;C:\Cadence\SPB_16.5\tools\pcb\bin;C:\Cadence\SPB_16.5\tools\bin;C:\Cadence\SPB_16.5\tools\libutil\bin;C:\Cadence\SPB_16.5\tools\fet\bin;C:\Cadence\SPB_16.5\tools\specctra\bin;C:\Cadence\SPB_16.5\tools\PSpice;C:\Cadence\SPB_16.5\tools\PSpice\Library;C:\Cadence\SPB_16.5\tools\Capture;C:\Cadence\SPB_16.5\OpenAccess\bin\win32\opt;D:\Program Files\ATI Technologies\ATI.ACE\Core-Static
+SET CPU_TYPE=STM32F103VE
+SET CPU_VENDOR=STMicroelectronics
+SET UV2_TARGET=STM32
+SET CPU_CLOCK=0x007A1200
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\core_cm3.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\system_stm32f10x.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\misc.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_gpio.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_rcc.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_exti.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_usart.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_tim.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_i2c.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_can.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_adc.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_dma.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\main.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\stm32f10x_it.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\gpio.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\systick.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\exti.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\pwm_output.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\timer.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\matrix_motor.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\usart.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmAsm" --Via ".\output\startup_stm32f10x_hd._ia"
+"D:\Keil\ARM\ARMCC\bin\ArmLink" --Via ".\Output\GPIO.lnp"
+D:\Keil\ARM\ARMCC\bin\fromelf.exe ".\Output\GPIO.axf" --i32combined --output ".\Output\GPIO.hex"
