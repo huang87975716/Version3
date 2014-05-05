@@ -11,17 +11,10 @@ int main(void)
 	//CAN_Config();
 	//ADC_Config();
 	//EXTI_PB15_Config();		
-
-	GPIO_SetBits(GPIOE, GPIO_Pin_15);
-	
-	Delay_us(1000);
-	
-	GPIO_ResetBits(GPIOE, GPIO_Pin_15);
 	
 	while (1)
 	{
-		if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_14)) GPIO_SetBits(GPIOE, GPIO_Pin_15);
-		else GPIO_ResetBits(GPIOE, GPIO_Pin_15);
+		;
 	}
 }
 // 			LED1 (ON) ;
