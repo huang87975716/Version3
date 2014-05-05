@@ -2,9 +2,12 @@
 
 int main(void)
 {
-	
 	SysTick_Init();
 	GPIO_Config();
+	
+	/* Configure one bit for preemption priority */
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+	
 	USART2_Config(); 
 	//TIM3_PWM_Config();
 	//I2C_Config();
@@ -14,9 +17,24 @@ int main(void)
 	
 	while (1)
 	{
-		;
+		if(USART_RX_STA&0x8000)
+		{					   
+			len=USART_RX_STA&0x3f;//得到此次接收到的数据长度
+			printf("\r\n您发送的消息为:\r\n\r\n");
+			for(t=0;t<len;t++)
+			{
+				USART_SendData(USART2, USART_RX_BUF[t]);//向串口2发送数据
+				while(USART_GetFlagStatus(USART1,USART_FLAG_TC)!=SET);//等待发送结束
+			}
+			printf("\r\n\r\n");//插入换行
+			USART_RX_STA=0;
+		}
 	}
 }
+
+
+
+
 // 			LED1 (ON) ;
 // 			Delay_us(1);
 // 			LED1 (OFF);
@@ -43,15 +61,3 @@ int main(void)
 			//USART1_printf(USART1, "\r\n This is a USART1_printf demo \r\n");
 			//USART1_printf(USART1, "\r\n ("__DATE__ " - " __TIME__ ") \r\n");
 			
-// 			if(USART_RX_STA&0x8000)
-// 			{					   
-// 				len=USART_RX_STA&0x3f;//得到此次接收到的数据长度
-// 				printf("\r\n您发送的消息为:\r\n\r\n");
-// 				for(t=0;t<len;t++)
-// 				{
-// 					USART_SendData(USART1, USART_RX_BUF[t]);//向串口1发送数据
-// 					while(USART_GetFlagStatus(USART1,USART_FLAG_TC)!=SET);//等待发送结束
-// 				}
-// 				printf("\r\n\r\n");//插入换行
-// 				USART_RX_STA=0;
-// 			}

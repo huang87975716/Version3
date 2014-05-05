@@ -3,10 +3,7 @@
 static void NVIC_Configuration(void)
 {
   NVIC_InitTypeDef NVIC_InitStructure;
-  
-  /* Configure one bit for preemption priority */
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-  
+   
   /* ≈‰÷√P[A|B|C|D|E]0Œ™÷–∂œ‘¥ */
   NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
