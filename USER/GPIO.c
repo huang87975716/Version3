@@ -52,6 +52,7 @@ void GPIO_Config(void)
 	LineContrary_9 -- PD13
 	LineContrary_10 -- PD11
 	LineContrary_11 -- PD9
+	
 	*/
 	RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB \
 													| RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOE, ENABLE );

@@ -12,7 +12,7 @@ int main(void)
 	//TIM3_PWM_Config();
 	//I2C_Config();
 	//CAN_Config();
-	//ADC_Config();
+	ADC1_Config();
 	//EXTI_PB15_Config();	
 	printf("\r\n您发送的消息为:\r\n\r\n");
 	//USART_SendData(USART2, USART_RX_BUF[t]);//向串口2发送数据

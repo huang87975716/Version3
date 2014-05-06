@@ -24,3 +24,4 @@
 .\Output\main.o: USER\timer.h
 .\Output\main.o: USER\matrix_motor.h
 .\Output\main.o: USER\protocol.h
+.\Output\main.o: USER\adc.h
