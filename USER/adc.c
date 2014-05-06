@@ -81,7 +81,7 @@ static void ADC1_Mode_Config(void)
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
   DMA_InitStructure.DMA_BufferSize = 1;
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Disable;
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
@@ -91,18 +91,32 @@ static void ADC1_Mode_Config(void)
   
   /* Enable DMA channel1 */
   DMA_Cmd(DMA1_Channel1, ENABLE);
-     
+    
+	ADC_DeInit(ADC1);  //??? ADC1 ????????????
   /* ADC1 configuration */
   ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-  ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+  ADC_InitStructure.ADC_ScanConvMode = ENABLE;
   ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
   ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
   ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-  ADC_InitStructure.ADC_NbrOfChannel = 1;
+  ADC_InitStructure.ADC_NbrOfChannel = 11;
   ADC_Init(ADC1, &ADC_InitStructure);
 
-  /* ADC1 regular channel11 configuration */ 
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_55Cycles5);
+	/********************************/
+	RCC_ADCCLKConfig(RCC_PCLK2_Div6);   //72M/6=12,ADC????????14M
+  /* ADC1 regular channel configuration */ 
+  ADC_RegularChannelConfig(ADC1, ADC_Channel_5, 1, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_6, 2, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_7, 3, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 4, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 5, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 6, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 7, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_12, 8, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 9, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_14, 10, ADC_SampleTime_55Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_15, 11, ADC_SampleTime_55Cycles5);
+
 
   /* Enable ADC1 DMA */
   ADC_DMACmd(ADC1, ENABLE);
