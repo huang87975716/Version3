@@ -16,3 +16,4 @@
 .\Output\stm32f10x_it.o: .\FWlib\inc\stm32f10x_tim.h
 .\Output\stm32f10x_it.o: .\FWlib\inc\stm32f10x_usart.h
 .\Output\stm32f10x_it.o: .\FWlib\inc\misc.h
+.\Output\stm32f10x_it.o: USER\protocol.h

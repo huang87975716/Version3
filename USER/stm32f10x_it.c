@@ -23,8 +23,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
+#include "protocol.h"
 extern void TimingDelay_Decrement(void);
 extern uint8_t key_down;
+extern PROTOCOL_t gU2RecvBuff[2];
 #define USART_REC_LEN  			200  	//定义最大接收字节数 200
 
 /** @addtogroup STM32F10x_StdPeriph_Template
@@ -145,7 +147,7 @@ void EXTI15_10_IRQHandler(void)
 {
   if(EXTI_GetITStatus(EXTI_Line15) != RESET) //确保是否产生了EXTI Line中断
   {
-		key_down = ~ (key_down);
+		;
     EXTI_ClearITPendingBit(EXTI_Line15);     //清除中断标志位
   }  
 }
@@ -171,42 +173,93 @@ void EXTI15_10_IRQHandler(void)
   */ 
 
 
-//串口1中断服务程序
-//注意,读取USARTx->SR能避免莫名其妙的错误   	
-u8 USART_RX_BUF[USART_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
-//接收状态
-//bit15，	接收完成标志
-//bit14，	接收到0x0d
-//bit13~0，	接收到的有效字节数目
-u16 USART_RX_STA=0;       //接收状态标记	  
+/********************************************************************************
+ * FunctionName: USART2_IRQHandler
+ *
+ * Description : 串口2的接收中断
+ *
+ * Parameters  : None.
+ *
+ * Returns     : None.
+ *******************************************************************************/
 
-void USART2_IRQHandler(void)                	//串口1中断服务程序
+uint8_t u1RecvCh = 0;               // 存储接收到的字符
+uint8_t u1BufferSwitch = 0;
+uint8_t u2RecvCh = 0;               // 存储接收到的字符
+PROTOCOL_t *u2p = &gU2RecvBuff[0];  // 指示缓存地址
+uint8_t u2BufferSwitch = 0;
+
+void USART2_IRQHandler(void)
+{
+	static uint8_t u2StaMach = 0;
+
+  // 如果存在数据
+	if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
 	{
-	u8 Res;
-	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
-		{
-		Res =USART_ReceiveData(USART2);//(USART2->DR);	//读取接收到的数据
-		
-		if((USART_RX_STA&0x8000)==0)//接收未完成
-			{
-			if(USART_RX_STA&0x4000)//接收到了0x0d
-				{
-				if(Res!=0x0a)USART_RX_STA=0;//接收错误,重新开始
-				else USART_RX_STA|=0x8000;	//接收完成了 
-				}
-			else //还没收到0X0D
-				{	
-				if(Res==0x0d)USART_RX_STA|=0x4000;
-				else
-					{
-					USART_RX_BUF[USART_RX_STA&0X3FFF]=Res ;
-					USART_RX_STA++;
-					if(USART_RX_STA>(USART_REC_LEN-1))USART_RX_STA=0;//接收数据错误,重新开始接收	  
-					}		 
-				}
-			}   		 
-     } 
+		// 读取USART2_DR寄存器会自动清空该标志位
+		u2RecvCh = (USART2->DR) & 0xFF;
 
-} 
+		// 状态机推进
+		if (u2StaMach == 0)
+		{
+			if (u2RecvCh == 0xAA)
+			{
+					u2p->header = u2RecvCh;
+					u2StaMach = 1;
+					u2p->checksum = u2RecvCh;
+			}
+		}
+		else if (u2StaMach==1)
+		{
+			u2p->command=u2RecvCh;
+			u2StaMach=2;
+			u2p->checksum += u2RecvCh;
+		}
+		else if (u2StaMach==2)
+		{
+			u2p->data[u2p->dataIndex++] = u2RecvCh;
+			u2p->checksum += u2RecvCh;
+			if (u2p->dataIndex == 4)
+			{
+				u2StaMach = 3;
+			}
+		}
+		else if (u2StaMach == 3)
+		{
+			// 判断校验和
+			if (u2p->checksum == u2RecvCh)
+			{
+				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				USART_SendData(USART2, 0xAA); //往串口1发送字符1	,告诉上位机接收成功
+				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				USART_SendData(USART2, 0xBB); //往串口1发送字符1	,告诉上位机接收成功
+				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
+				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
+				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
+				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
+				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
+				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				if (u2p->command==0x02)
+				{
+					//LedRecFlag=1;
+					//MagRecFlag=0;
+				}
+				else if(u2p->command==0x01)
+				{
+					//MagRecFlag=1;
+					//LedRecFlag=0;
+				}
+			}
+			u2StaMach = 0;
+			u2p->dataIndex =0;
+		}
+		USART_ClearITPendingBit(USART2,USART_IT_RXNE);  
+	}
+}
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

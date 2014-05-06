@@ -28,6 +28,7 @@ void USART2_Config(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;
 
 	/* config USART2 clock */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
@@ -52,9 +53,17 @@ void USART2_Config(void)
 	USART_InitStructure.USART_Parity = USART_Parity_No ;
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-
 	USART_Init(USART2, &USART_InitStructure); 
-  USART_Cmd(USART2, ENABLE);
+	
+	//Usart2 NVIC 
+  NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1 ;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;	
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			
+	NVIC_Init(&NVIC_InitStructure);	
+	
+	USART_ITConfig(USART2,USART_IT_RXNE,ENABLE);
+	USART_Cmd(USART2, ENABLE);
 }
 
 /*
