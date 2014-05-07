@@ -20,8 +20,23 @@ int main(void)
 	
 	while (1)
 	{
-		if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_14)) GPIO_SetBits(GPIOE, GPIO_Pin_15);
-		else GPIO_ResetBits(GPIOE, GPIO_Pin_15);
+		if(GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_14)) 
+		{
+			GPIO_ResetBits(GPIOE, GPIO_Pin_15);
+			GPIO_ResetBits(GPIOA, GPIO_Pin_4);
+			GPIO_ResetBits(GPIOC, GPIO_Pin_11);
+			GPIO_ResetBits(GPIOC, GPIO_Pin_12);
+			GPIO_ResetBits(GPIOD, GPIO_Pin_8);			
+			Delay_us(5000);
+		}
+		else
+		{
+			GPIO_SetBits(GPIOE, GPIO_Pin_15);
+			GPIO_SetBits(GPIOA, GPIO_Pin_4);
+			GPIO_SetBits(GPIOC, GPIO_Pin_11);
+			GPIO_SetBits(GPIOC, GPIO_Pin_12);
+			GPIO_SetBits(GPIOD, GPIO_Pin_8);
+		}
 	}
 }
 // 			LED1 (ON) ;
