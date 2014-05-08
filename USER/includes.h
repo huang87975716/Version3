@@ -11,6 +11,7 @@
 	#include "matrix_motor.h"
 	#include "protocol.h"
 	#include "adc.h"
+	#include "PCF8574_I2C.h"
 	
 	u16 CCR1_Val = 0;
 	unsigned int i = 0;

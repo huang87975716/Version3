@@ -25,6 +25,7 @@ SET CPU_CLOCK=0x007A1200
 "D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\matrix_motor.__i"
 "D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\usart.__i"
 "D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\adc.__i"
+"D:\Keil\ARM\ARMCC\bin\ArmCC" --Via ".\output\pcf8574_i2c.__i"
 "D:\Keil\ARM\ARMCC\bin\ArmAsm" --Via ".\output\startup_stm32f10x_hd._ia"
 "D:\Keil\ARM\ARMCC\bin\ArmLink" --Via ".\Output\GPIO.lnp"
 D:\Keil\ARM\ARMCC\bin\fromelf.exe ".\Output\GPIO.axf" --i32combined --output ".\Output\GPIO.hex"

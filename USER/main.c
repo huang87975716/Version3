@@ -1,5 +1,9 @@
 #include "includes.h"
 PROTOCOL_t gU2RecvBuff[2];
+void ADC1_Test(void);
+void MosForMosTest(void);
+void I2C_Test(void);
+
 int main(void)
 {
 	SysTick_Init();
@@ -18,6 +22,15 @@ int main(void)
 	//USART_SendData(USART2, USART_RX_BUF[t]);//向串口2发送数据，未测试；
 	while (1)
 	{
+		//ADC1_Test();
+		//MosForMosTest();
+		I2C_Test();
+		Delay_us(1000);
+	}
+}
+
+void ADC1_Test(void)
+{
 		for(i=0;i<11;i++)
 		{
 			ADC_ConvertedValueLocal = (float)ADC_ConvertedValue[i]/4096*2.5; // 读取转换的AD
@@ -26,33 +39,41 @@ int main(void)
 			printf("-->%fV", ADC_ConvertedValueLocal); ;
 		}
 		printf("\r \n");
-		GPIO_SetBits(GPIOA, GPIO_Pin_All & (~(GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 \
-																			| GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 |GPIO_Pin_13 | GPIO_Pin_14)));	
-		GPIO_SetBits(GPIOB, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_6 | GPIO_Pin_7) ) );
-		GPIO_SetBits(GPIOC, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5) )); 
-		GPIO_SetBits(GPIOD, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1) ) );
-		GPIO_SetBits(GPIOE, GPIO_Pin_All);			
-		Delay_us(500);
-		
-		GPIO_ResetBits(GPIOA, GPIO_Pin_All & (~(GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 \
-																			| GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 |GPIO_Pin_13 | GPIO_Pin_14)));	
-		GPIO_ResetBits(GPIOB, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_6 | GPIO_Pin_7) ) );
-		GPIO_ResetBits(GPIOC, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5) )); 
-		GPIO_ResetBits(GPIOD, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1) ) );
-		GPIO_ResetBits(GPIOE, GPIO_Pin_All);
-		Delay_us(1000);
-	}
+}
+
+void MosForMosTest(void)
+{	
+	GPIO_SetBits(GPIOA, GPIO_Pin_All & (~(GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 \
+																		| GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 |GPIO_Pin_13 | GPIO_Pin_14)));	
+	GPIO_SetBits(GPIOB, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_6 | GPIO_Pin_7) ) );
+	GPIO_SetBits(GPIOC, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5) )); 
+	GPIO_SetBits(GPIOD, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1) ) );
+	GPIO_SetBits(GPIOE, GPIO_Pin_All);			
+	Delay_us(500);
+	
+	GPIO_ResetBits(GPIOA, GPIO_Pin_All & (~(GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 \
+																		| GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 |GPIO_Pin_13 | GPIO_Pin_14)));	
+	GPIO_ResetBits(GPIOB, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_6 | GPIO_Pin_7) ) );
+	GPIO_ResetBits(GPIOC, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5) )); 
+	GPIO_ResetBits(GPIOD, GPIO_Pin_All & ( ~ (GPIO_Pin_0 | GPIO_Pin_1) ) );
+	GPIO_ResetBits(GPIOE, GPIO_Pin_All);
+	Delay_us(1000);
 }
 
 
 
 
-// 			LED1 (ON) ;
-// 			Delay_us(1);
-// 			LED1 (OFF);
-// 			GPIO5( ON );				
-// 			Delay_us(500);    
-// 			GPIO5( OFF );
+void I2C_Test(void)
+{
+	uint8_t I2CInput;
+	uint8_t Write_Buffer = 0xFF;
+	uint8_t PCF8574Address = 0x40;
+	I2C_PCF8574_Init();
+	I2C_PCF8574_ByteWrite(Write_Buffer , PCF8574Address);
+	I2CInput = I2C_PCF8574_ByteRead(PCF8574Address);
+	printf("%d", I2CInput);
+}
+
 // 			TIM_SetCompare1(TIM3,TIM_GetCapture1(TIM3)+100);
 // 			if(TIM_GetCapture1(TIM3)==900)TIM_SetCompare1(TIM3,600);	
 			
