@@ -16,7 +16,7 @@
 
 #define ADC1_DR_Address    ((u32)0x4001244C)
 
-__IO u16 ADC_ConvertedValue;
+__IO u16 ADC_ConvertedValue[11] = {0};
 //__IO u16 ADC_ConvertedValueLocal;
 
 
@@ -41,12 +41,6 @@ __IO u16 ADC_ConvertedValue;
 static void ADC1_GPIO_Config(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-
-	/* Enable DMA clock */
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
-
-	/* Enable ADC1 clock and GPIOC clock already enabled in GPIO.c */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 
   /* Configure GPIO as analog input */
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6 |GPIO_Pin_7;
@@ -73,13 +67,19 @@ static void ADC1_Mode_Config(void)
 {
 	DMA_InitTypeDef DMA_InitStructure;
 	ADC_InitTypeDef ADC_InitStructure;
+	
+		/* Enable DMA clock */
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
+
+	/* Enable ADC1 clock and GPIOC clock already enabled in GPIO.c */
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 
 	/* DMA channel1 configuration */
   DMA_DeInit(DMA1_Channel1);
   DMA_InitStructure.DMA_PeripheralBaseAddr = ADC1_DR_Address;
   DMA_InitStructure.DMA_MemoryBaseAddr = (u32)&ADC_ConvertedValue;
   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-  DMA_InitStructure.DMA_BufferSize = 1;
+  DMA_InitStructure.DMA_BufferSize = 11;
   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
@@ -88,12 +88,11 @@ static void ADC1_Mode_Config(void)
   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
   DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
   DMA_Init(DMA1_Channel1, &DMA_InitStructure);
-  
   /* Enable DMA channel1 */
   DMA_Cmd(DMA1_Channel1, ENABLE);
-    
+
+	/* ADC1 configuration */  
 	ADC_DeInit(ADC1);  //??? ADC1 ????????????
-  /* ADC1 configuration */
   ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
   ADC_InitStructure.ADC_ScanConvMode = ENABLE;
   ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;

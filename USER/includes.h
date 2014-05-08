@@ -23,7 +23,7 @@
 	extern u16	TIM5CH1_CAPTURE_VAL;	//输入捕获值	
 	
 	// ADC1转换的电压值通过MDA方式传到flash
-	extern __IO u16 ADC_ConvertedValue;
+	extern __IO u16 ADC_ConvertedValue[11];
 
 	// 局部变量，用于存从flash读到的电压值			 
 	float ADC_ConvertedValueLocal;  
