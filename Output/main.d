@@ -23,3 +23,4 @@
 .\Output\main.o: USER\pwm_output.h
 .\Output\main.o: USER\timer.h
 .\Output\main.o: USER\matrix_motor.h
+.\Output\main.o: D:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
