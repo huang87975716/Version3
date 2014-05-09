@@ -3,6 +3,7 @@ PROTOCOL_t gU2RecvBuff[2];
 void ADC1_Test(void);
 void MosForMosTest(void);
 void I2C_Test(void);
+void I2CSoftwareTest(void);
 
 int main(void)
 {
