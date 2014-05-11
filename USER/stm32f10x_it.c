@@ -26,7 +26,7 @@
 #include "protocol.h"
 extern void TimingDelay_Decrement(void);
 extern uint8_t key_down;
-extern PROTOCOL_t gU2RecvBuff[2];
+extern PROTOCOL_t gU2RecvBuff;
 #define USART_REC_LEN  			200  	//定义最大接收字节数 200
 
 /** @addtogroup STM32F10x_StdPeriph_Template
@@ -147,7 +147,7 @@ void EXTI15_10_IRQHandler(void)
 {
   if(EXTI_GetITStatus(EXTI_Line15) != RESET) //确保是否产生了EXTI Line中断
   {
-		;
+		//do something
     EXTI_ClearITPendingBit(EXTI_Line15);     //清除中断标志位
   }  
 }
@@ -182,17 +182,14 @@ void EXTI15_10_IRQHandler(void)
  *
  * Returns     : None.
  *******************************************************************************/
-
-uint8_t u1RecvCh = 0;               // 存储接收到的字符
-uint8_t u1BufferSwitch = 0;
-uint8_t u2RecvCh = 0;               // 存储接收到的字符
-PROTOCOL_t *u2p = &gU2RecvBuff[0];  // 指示缓存地址
-uint8_t u2BufferSwitch = 0;
-
 void USART2_IRQHandler(void)
 {
 	static uint8_t u2StaMach = 0;
-
+	uint8_t u2RecvCh = 0;               // 存储接收到的字符
+	PROTOCOL_t *u2p = &gU2RecvBuff;  		// 指示缓存地址
+	unsigned char i = 0;
+	unsigned char InfoBackForMaster[7] = {0xAA, 0xBB, 0x00, 0x00, 0x00, 0x00, 0x00};
+	
   // 如果存在数据
 	if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
 	{
@@ -229,21 +226,7 @@ void USART2_IRQHandler(void)
 			// 判断校验和
 			if (u2p->checksum == u2RecvCh)
 			{
-				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
-				USART_SendData(USART2, 0xAA); //往串口1发送字符1	,告诉上位机接收成功
-				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
-				USART_SendData(USART2, 0xBB); //往串口1发送字符1	,告诉上位机接收成功
-				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
-				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
-				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
-				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
-				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
-				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
-				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
-				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
-				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
-				USART_SendData(USART2, 0x00); //往串口1发送字符1	,告诉上位机接收成功
-				while (USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);//等待发送结束
+				for( i=0; i<7;i++) USART_SendData(USART2, InfoBackForMaster[i]);//sendAABB00...toMasterPC
 				if (u2p->command==0x02)
 				{
 					//LedRecFlag=1;

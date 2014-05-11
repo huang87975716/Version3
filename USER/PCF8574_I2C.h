@@ -17,6 +17,10 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 
+bool I2C_PCF8574_BufferWrite(u8 Buffer, u8 PCF8574_ADDRESS);
+bool I2C_PCF8574_BufferRead(u8* pBuffer, u8 PCF8574_ADDRESS);
+void SoftwareI2CConfig(void);
+void SoftwareI2CGPIOConfig(unsigned char I2CValue1, unsigned char I2CValue2);
 
 //由于电路图设计错误，PB6连接到了SDA，PB7连接了SCL，以下代码被注释，该用软件模拟I2C
 // 	void I2C_PCF8574_Init(void);

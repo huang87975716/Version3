@@ -1,7 +1,7 @@
 #include "PCF8574_I2C.h"
-/******************** (C) COPYRIGHT 2011 野火嵌入式开发工作室 ********************
- *          |  PB6-I2C1_SCL		|
- *          |  PB7-I2C1_SDA   |
+/****************************************
+ *          |  PB6-I2C1_SDA	|
+ *          |  PB7-I2C1_SCL   |
 **********************************************************************************/
 
 /* Private function prototypes -----------------------------------------------*/
@@ -122,12 +122,12 @@ u8 I2C_ReceiveByte(void)  //
     return ReceiveByte;
 }
 
-bool I2C_FRAM_BufferWrite(u8 Buffer, u8 FRAM_ADDRESS)
+bool I2C_PCF8574_BufferWrite(u8 Buffer, u8 PCF8574_ADDRESS)
 {
 
 
     if (!I2C_Start()) return FALSE;
-    I2C_SendByte(FRAM_ADDRESS);//??????+??? 
+    I2C_SendByte(PCF8574_ADDRESS);//??????+??? 
     if (!I2C_WaitAck())
         {
                 I2C_Stop(); 
@@ -142,12 +142,12 @@ bool I2C_FRAM_BufferWrite(u8 Buffer, u8 FRAM_ADDRESS)
 }
 
 //         
-bool I2C_FRAM_BufferRead(u8* pBuffer, u8 FRAM_ADDRESS)
+bool I2C_PCF8574_BufferRead(u8* pBuffer, u8 PCF8574_ADDRESS)
 {                
         
         if (!I2C_Start()) return FALSE;
 
-    I2C_SendByte(FRAM_ADDRESS | 0x01);
+    I2C_SendByte(PCF8574_ADDRESS | 0x01);
     I2C_WaitAck();
 
       *pBuffer = I2C_ReceiveByte();
@@ -156,6 +156,24 @@ bool I2C_FRAM_BufferRead(u8* pBuffer, u8 FRAM_ADDRESS)
     I2C_Stop();
     return TRUE;
 }
+
+void SoftwareI2CConfig(void)
+{
+	//I2C GPIO
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
+	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
+}
+
+void SoftwareI2CGPIOConfig(unsigned char I2CValue1, unsigned char I2CValue2)
+{
+	I2C_PCF8574_BufferWrite(I2CValue1, 0x40);//port of PCF8574 addressed 0x40 is set for input;
+	I2C_PCF8574_BufferWrite(I2CValue2, 0x42);	
+}
+
 //由于电路图设计错误，PB6连接到了SDA，PB7连接了SCL，以下代码被注释，该用软件模拟I2C
 // #define I2C_Speed              50000
 // /*

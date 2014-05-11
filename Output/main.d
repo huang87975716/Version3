@@ -26,3 +26,4 @@
 .\Output\main.o: USER\protocol.h
 .\Output\main.o: USER\adc.h
 .\Output\main.o: USER\PCF8574_I2C.h
+.\Output\main.o: D:\Keil\ARM\ARMCC\bin\..\include\stdbool.h

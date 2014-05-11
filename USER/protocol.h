@@ -23,15 +23,9 @@
 	typedef struct tagProtocol
 	{
 			uint8_t header;
-			uint8_t direction;
-			uint8_t msgref;
 			uint8_t command;
-			uint8_t length;
 			uint8_t data[4];
 			uint8_t checksum;
 			uint8_t dataIndex;
-			uint8_t buffswitch; // ª∫¥Ê«–ªª
 	}PROTOCOL_t;   
-	extern PROTOCOL_t gU2RecvBuff[2];
-
 #endif

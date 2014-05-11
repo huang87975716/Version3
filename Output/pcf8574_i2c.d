@@ -16,3 +16,4 @@
 .\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_tim.h
 .\Output\pcf8574_i2c.o: .\FWlib\inc\stm32f10x_usart.h
 .\Output\pcf8574_i2c.o: .\FWlib\inc\misc.h
+.\Output\pcf8574_i2c.o: D:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
