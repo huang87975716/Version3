@@ -14,7 +14,6 @@ int main(void)
 	SoftwareI2CConfig();
 	SoftwareI2CGPIOConfig(I2CValue1, I2CValue2);
 	USART2_Config(); 
-	SoftwareI2CConfig();
 	ADC1_Config();
 	//TIM3_PWM_Config();
 	//EXTI_PB15_Config();	
