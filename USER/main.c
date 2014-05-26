@@ -35,25 +35,26 @@ int main(void)
 	}
 	else printf("an error occurred while reading RunMode"); 	
 	
-	ELSCheck()//ELS means electric light switch :), actually it should be photoelectric switch
-	{
-		StartAllELS;
-		for(i=0;i++;i<NumOfELS)
-		{
-			onlystop ELS(i);
-			Delay_us(time);
-			if (OptoCouplerHigh) OptoCouplerStatus |= (1<<i);
-			else OptoCouplerStatus &= ( ~(1<<i) );
-		}
-		printf("%d",OptoCouplerStatus);
-	}
+// 	ELSCheck()//ELS means electric light switch :), actually it should be photoelectric switch
+// 	{
+// 		StartAllELS;
+// 		for(i=0;i++;i<NumOfELS)
+// 		{
+// 			onlystop ELS(i);
+// 			Delay_us(time);
+// 			if (OptoCouplerHigh) OptoCouplerStatus |= (1<<i);
+// 			else OptoCouplerStatus &= ( ~(1<<i) );
+// 		}
+// 		printf("%d",OptoCouplerStatus);
+// 	}
 	
 	while (1)
 	{
-		//ADC1_Test();
+		ADC1_Test();
 		//MosForMosTest();
 		//I2C_Test();
-		I2CSoftwareTest();
+		//I2CSoftwareTest();
+		
 	}
 }
 

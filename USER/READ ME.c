@@ -66,3 +66,22 @@
 	ELS0 -- PE0
 	ELS11 -- P5 of I2C addressed at 0x42
 */
+/*
+protocol for master
+AA(header) XX(command) XX(data0) XX(data1) XX(data2) XX(data3) XX(checksum)
+command from master to slave
+0x01: upload PCB ID 
+0x02: check photoelectric switch
+0x03: motor start forward 
+0x04: motor start but backward
+0x05: stop all motor
+0x07：start photoelectric switch
+0x08: stop photoelectric switch
+
+command from slave to master
+0x21: PCB ID 
+0x22: result of photoelectric switch
+0x23: motor start forward failed
+0x24: motor start backward failed
+		
+*/

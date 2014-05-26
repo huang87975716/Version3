@@ -12,8 +12,7 @@
 	extern unsigned char  TIM5CH1_CAPTURE_STA;		//输入捕获状态		    				
 	extern unsigned short int	TIM5CH1_CAPTURE_VAL;	//输入捕获值	
 	
-	// ADC1转换的电压值通过MDA方式传到flash
-	extern volatile u16 ADC_ConvertedValue[11];
+
 
 	// 局部变量，用于存从flash读到的电压值			 
 	float ADC_ConvertedValueLocal; 

@@ -25,7 +25,6 @@
 #include "stm32f10x_it.h"
 #include "protocol.h"
 extern void TimingDelay_Decrement(void);
-extern uint8_t key_down;
 extern PROTOCOL_t gU2RecvBuff;
 #define USART_REC_LEN  			200  	//定义最大接收字节数 200
 
@@ -226,17 +225,7 @@ void USART2_IRQHandler(void)
 			// 判断校验和
 			if (u2p->checksum == u2RecvCh)
 			{
-				for( i=0; i<7;i++) USART_SendData(USART2, InfoBackForMaster[i]);//sendAABB00...toMasterPC
-				if (u2p->command==0x02)
-				{
-					//LedRecFlag=1;
-					//MagRecFlag=0;
-				}
-				else if(u2p->command==0x01)
-				{
-					//MagRecFlag=1;
-					//LedRecFlag=0;
-				}
+				for( i=0; i<7;i++) USART_SendData(USART2, InfoBackForMaster[i]);//send AABB00...to MasterPC
 			}
 			u2StaMach = 0;
 			u2p->dataIndex =0;

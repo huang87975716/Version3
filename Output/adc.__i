@@ -2,4 +2,4 @@
 -I D:\Keil\ARM\RV31\INC 
 -I D:\Keil\ARM\CMSIS\Include 
 -I D:\Keil\ARM\Inc\ST\STM32F10x 
--DUSE_STDPERIPH_DRIVER -DSTM32F10X_HD -o ".\Output\adc.o" --omf_browse ".\Output\adc.crf" --depend ".\Output\adc.d" "USER\adc.c"
+-DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -o ".\Output\adc.o" --omf_browse ".\Output\adc.crf" --depend ".\Output\adc.d" "USER\adc.c"

@@ -17,7 +17,6 @@
 #define ADC1_DR_Address    ((u32)0x4001244C)
 
 __IO u16 ADC_ConvertedValue[11] = {0};
-//__IO u16 ADC_ConvertedValueLocal;
 
 
 /*
