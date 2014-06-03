@@ -27,5 +27,7 @@
 			uint8_t data[4];
 			uint8_t checksum;
 			uint8_t dataIndex;
+			uint8_t protocol_ok;
+			
 	}PROTOCOL_t;   
 #endif

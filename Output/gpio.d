@@ -2,7 +2,7 @@
 .\Output\gpio.o: USER\GPIO.h
 .\Output\gpio.o: .\CMSIS\stm32f10x.h
 .\Output\gpio.o: .\CMSIS\core_cm3.h
-.\Output\gpio.o: D:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\Output\gpio.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
 .\Output\gpio.o: .\CMSIS\system_stm32f10x.h
 .\Output\gpio.o: .\USER\stm32f10x_conf.h
 .\Output\gpio.o: .\FWlib\inc\stm32f10x_adc.h

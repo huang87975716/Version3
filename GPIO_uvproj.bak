@@ -348,7 +348,7 @@
             <uSurpInc>0</uSurpInc>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,STM32F10X_HD</Define>
+              <Define>USE_STDPERIPH_DRIVER,STM32F10X_MD</Define>
               <Undefine></Undefine>
               <IncludePath>.\CMSIS;.\USER;.\FWlib\inc;.\FWlib\src</IncludePath>
             </VariousControls>
@@ -482,21 +482,6 @@
               <FilePath>.\USER\SysTick.c</FilePath>
             </File>
             <File>
-              <FileName>exti.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\exti.c</FilePath>
-            </File>
-            <File>
-              <FileName>pwm_output.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\pwm_output.c</FilePath>
-            </File>
-            <File>
-              <FileName>timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\timer.c</FilePath>
-            </File>
-            <File>
               <FileName>matrix_motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\matrix_motor.c</FilePath>
@@ -516,15 +501,25 @@
               <FileType>1</FileType>
               <FilePath>.\USER\PCF8574_I2C.c</FilePath>
             </File>
+            <File>
+              <FileName>READ ME.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\READ ME.c</FilePath>
+            </File>
+            <File>
+              <FileName>PtoEtcSW_Check.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\PtoEtcSW_Check.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>STARTCODE</GroupName>
           <Files>
             <File>
-              <FileName>startup_stm32f10x_hd.s</FileName>
+              <FileName>startup_stm32f10x_md.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\CMSIS\Startup\startup_stm32f10x_hd.s</FilePath>
+              <FilePath>.\CMSIS\Startup\startup_stm32f10x_md.s</FilePath>
             </File>
           </Files>
         </Group>

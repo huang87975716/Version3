@@ -8,53 +8,72 @@ unsigned char temp_readbyte, readbyte,sucess;
 	
 int main(void)
 {
-	SysTick_Init();
-	
+	SysTick_Init();	
 	GPIO_Config();//
 	SoftwareI2CConfig();
 	SoftwareI2CGPIOConfig(I2CValue1, I2CValue2);
 	USART2_Config(); 
 	ADC1_Config();
-	//TIM3_PWM_Config();
-	//EXTI_PB15_Config();	
 	//CAN_Config();
+	TIM2_NVIC_Configuration();
+  TIM2_Configuration();
 	
-	//printf("\r\n´®¿Ú²âÊÔ\r\n\r\n");
+	printf("\r\n´®¿Ú²âÊÔ\r\n\r\n");
 	
-	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
-	{
-		IDOfPCB &= 0x0F;
-		printf("%d" , IDOfPCB) ;
-	}
-	else printf("an error occurred while reading IDOfPCB");
-	
-	if ( I2C_PCF8574_BufferRead( &RunMode, 0x40 ) ) 	
-	{
-		RunMode = ( RunMode & 0xF0 ) >> 4;
-		printf("%d" , RunMode) ;
-	}
-	else printf("an error occurred while reading RunMode"); 	
-	
-// 	ELSCheck()//ELS means electric light switch :), actually it should be photoelectric switch
+// 	if ( I2C_PCF8574_BufferRead( &IDOfPCB, 0x40 ) ) 	
 // 	{
-// 		StartAllELS;
-// 		for(i=0;i++;i<NumOfELS)
-// 		{
-// 			onlystop ELS(i);
-// 			Delay_us(time);
-// 			if (OptoCouplerHigh) OptoCouplerStatus |= (1<<i);
-// 			else OptoCouplerStatus &= ( ~(1<<i) );
-// 		}
-// 		printf("%d",OptoCouplerStatus);
+// 		IDOfPCB &= 0x0F;
+// 		printf("%d" , IDOfPCB) ;
 // 	}
+// 	else printf("an error occurred while reading IDOfPCB");
+// 	
+// 	if ( I2C_PCF8574_BufferRead( &RunMode, 0x40 ) ) 	
+// 	{
+// 		RunMode = ( RunMode & 0xF0 ) >> 4;
+// 		printf("%d" , RunMode) ;
+// 	}
+// 	else printf("an error occurred while reading RunMode"); 	
+	
+	PtoEtcSWCheckResult = ELSCheck();
 	
 	while (1)
 	{
-		ADC1_Test();
-		//MosForMosTest();
-		//I2C_Test();
-		//I2CSoftwareTest();
+		if (gU2RecvBuff.protocol_ok)
+		{
+			gU2RecvBuff.protocol_ok = 0;
+			MotorStopAll();
+			motor_row =( (gU2RecvBuff.data[0]<<8) | gU2RecvBuff.data[1] );
+			motor_col =( (gU2RecvBuff.data[2]<<8) | gU2RecvBuff.data[3] );			
+			for(i=0;i<11;i++)
+			{
+				if (( (motor_row >>i) & 0x01 ) == 0x01) 
+				{
+					for (j = 0; j<11;j++)
+					{
+						if (( (motor_col >>j) & 0x01 ) == 0x01) MotorDrive( 4-gU2RecvBuff.command, i+1, j+1);
+					}
+				}
+			}
+			Delay_us(500);
+		}
 		
+		//check photoelectric switch and current
+		if (GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_13) == 1) 
+		{
+			MotorStopAll();
+			printf("Medicine_ok");
+		}
+		for (j = 0; j<3; j++)
+		{
+			MeanRunningCurrent += ADC_ConvertedValue[0];
+			Delay_us(1);
+		}
+		if (MeanRunningCurrent > 3234) //if anything wrong during running(current feedback), stop all the motors;
+		{
+			MotorStopAll();
+			printf("Medicine_wrong");
+		}
+		MeanRunningCurrent = 0;
 	}
 }
 

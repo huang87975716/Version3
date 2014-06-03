@@ -462,11 +462,6 @@
           <GroupName>USER</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\main.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f10x_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\stm32f10x_it.c</FilePath>
@@ -480,16 +475,6 @@
               <FileName>SysTick.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\SysTick.c</FilePath>
-            </File>
-            <File>
-              <FileName>exti.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\exti.c</FilePath>
-            </File>
-            <File>
-              <FileName>pwm_output.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USER\pwm_output.c</FilePath>
             </File>
             <File>
               <FileName>matrix_motor.c</FileName>
@@ -510,6 +495,26 @@
               <FileName>PCF8574_I2C.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\USER\PCF8574_I2C.c</FilePath>
+            </File>
+            <File>
+              <FileName>READ ME.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\READ ME.c</FilePath>
+            </File>
+            <File>
+              <FileName>PtoEtcSW_Check.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\PtoEtcSW_Check.c</FilePath>
+            </File>
+            <File>
+              <FileName>copy_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\copy_main.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\USER\timer2.c</FilePath>
             </File>
           </Files>
         </Group>

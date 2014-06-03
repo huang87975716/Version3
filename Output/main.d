@@ -2,7 +2,7 @@
 .\Output\main.o: USER\includes.h
 .\Output\main.o: .\CMSIS\stm32f10x.h
 .\Output\main.o: .\CMSIS\core_cm3.h
-.\Output\main.o: D:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\Output\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
 .\Output\main.o: .\CMSIS\system_stm32f10x.h
 .\Output\main.o: .\USER\stm32f10x_conf.h
 .\Output\main.o: .\FWlib\inc\stm32f10x_adc.h
@@ -19,13 +19,13 @@
 .\Output\main.o: USER\gpio.h
 .\Output\main.o: USER\SysTick.h
 .\Output\main.o: USER\usart.h
-.\Output\main.o: D:\Keil\ARM\ARMCC\bin\..\include\stdio.h
-.\Output\main.o: USER\pwm_output.h
-.\Output\main.o: USER\timer.h
+.\Output\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\Output\main.o: USER\timer2.h
 .\Output\main.o: USER\matrix_motor.h
 .\Output\main.o: USER\protocol.h
 .\Output\main.o: USER\adc.h
 .\Output\main.o: USER\PCF8574_I2C.h
-.\Output\main.o: D:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\Output\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
 .\Output\main.o: USER\global_values.h
 .\Output\main.o: USER\protocol.h
+.\Output\main.o: USER\PtoEtcSW_Check.h
